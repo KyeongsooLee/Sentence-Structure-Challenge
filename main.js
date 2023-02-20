@@ -88,8 +88,8 @@ input.addEventListener("input", (e) => {
 
 // Check the word
 checkButton.addEventListener("click", () => {
-    let answerText = input.value.trim();
-    if(answerText !== sentence)
+    let answerText = input.value.toLowerCase().trim();
+    if(answerText !== sentence.toLowerCase())
         return loseGame(`Oops! ${answerText} is not a correct sentence`)
     
     return winGame(`Congrats! ${answerText} is a correct`)

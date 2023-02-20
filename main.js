@@ -6,6 +6,7 @@ const input = document.querySelector("input");
 const timeElement = document.querySelector(".time span b");
 const scoreElement = document.querySelector(".score span");
 const numOfPlays = document.querySelector(".num span");
+const totalSentences = document.querySelector(".total span b")
 
 // Initial variables
 let sentence = '';
@@ -13,9 +14,11 @@ let timer;
 let score = 0;
 let num = 5; // Each player has three replays.
 let time = 60;
+let total = sentences.length;
 
 // Initial Game
 function initGame(){
+
     // Random Word
     let randomIndex = Math.floor(Math.random() * sentences.length);
     let randomObj = sentences[randomIndex];
@@ -27,6 +30,7 @@ function initGame(){
     scoreElement.innerText = score;
     sentenceElement.innerText = sentence;
     timeElement.innerText = time;
+    totalSentences.innerText = total;
     input.value = "";
     checkButton.setAttribute("disabled", true);
 
@@ -88,9 +92,13 @@ input.addEventListener("input", (e) => {
 
 // Check the word
 checkButton.addEventListener("click", () => {
-    let answerText = input.value.toLowerCase().trim();
-    if(answerText !== sentence.toLowerCase())
+    let answerText = input.value.toLowerCase().trim().replace(/[^\w\s]/gi, "");
+    let sentenceText = sentence.toLowerCase().trim().replace(/[^\w\s]/gi, "");
+    // let answerText = input.value.toLowerCase().trim();
+    if(answerText !== sentenceText)
         return loseGame(`Oops! ${answerText} is not a correct sentence`)
-    
-    return winGame(`Congrats! ${answerText} is a correct`)
+    else{
+        total--;
+        return winGame(`Congrats! ${answerText} is a correct`)
+    }
 })

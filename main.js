@@ -3,45 +3,46 @@ const sentenceElement = document.querySelector(".sentence");
 const refreshButton = document.querySelector(".refresh-sentence");
 const checkButton = document.querySelector(".check-sentence");
 const input = document.querySelector("input");
-const timeElement = document.querySelector(".time span b");
+const completeElement = document.querySelector(".complete span b");
 const scoreElement = document.querySelector(".score span");
 const numOfPlays = document.querySelector(".num span");
 const totalSentences = document.querySelector(".total span b")
 
 // Initial variables
 let sentence = '';
-let timer;
 let score = 0;
-let num = 5; // Each player has three replays.
-let time = 60;
+let num = 3; // Each player has three replays.
+let completed = 0;
 let total = sentences.length;
+let sentencesRemaining = sentences.slice();
 
 // Initial Game
 function initGame(){
+    if (sentencesRemaining.length === 0) {
+        // All sentences have been guessed, so restart the game
+        sentencesRemaining = sentences.slice();
+        total = sentencesRemaining.length;
+        score = 0;
+        num = 3;
+      }
 
     // Random Word
-    let randomIndex = Math.floor(Math.random() * sentences.length);
-    let randomObj = sentences[randomIndex];
+    let randomIndex = Math.floor(Math.random() * sentencesRemaining.length);
+    let randomObj = sentencesRemaining[randomIndex];
     sentence = randomObj.sentence;
     console.log(sentence)
+
+    // Remove sentence from `sentencesRemaining` array
+    sentencesRemaining.splice(randomIndex, 1);
 
     // Render HTML
     numOfPlays.innerHTML = num;
     scoreElement.innerText = score;
     sentenceElement.innerText = sentence;
-    timeElement.innerText = time;
+    completeElement.innerText = completed;
     totalSentences.innerText = total;
     input.value = "";
     checkButton.setAttribute("disabled", true);
-
-    // Initial timer
-    // timer = setInterval(() => {
-    //     if(time > 0){
-    //         time--;
-    //         return timeElement.innerText = time;
-    //     }
-    //     loseGame(`Time Out! ${word.toUpperCase()} is a correct word`);
-    // }, 1000)
 }
 
 initGame()
@@ -52,9 +53,6 @@ refreshButton.addEventListener("click", () => loseGame())
 
 function refreshGame(msg){
     if(msg) alert(msg);
-    sentence = '';
-    time = 60;
-    clearInterval(timer);
     initGame()
 }
 
@@ -78,6 +76,15 @@ function loseGame(msg){
 // Win Game
 function winGame(msg){
     score++;
+    if(total == 0){
+        return winner(`You completed every sentences!!`)
+    }
+    refreshGame(msg)
+}
+
+// Winner!
+function winner(msg){
+    completed++;
     refreshGame(msg)
 }
 

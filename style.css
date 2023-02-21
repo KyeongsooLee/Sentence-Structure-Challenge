@@ -15,7 +15,7 @@ body{
     align-items: center;
     color: darkblue;
     background: linear-gradient(0deg, #03737a33, #03737a33),
-                linear-gradient(0deg, #0066c442, #0066c442),
+                linear-gradient(0deg, #bed1a9, #8bc34a),
                 #000000;
 }
 
@@ -109,4 +109,14 @@ body{
 .content .btn .check-sentence:disabled{
     opacity: 0.5;
     pointer-events: none;
+}
+
+@keyframes blink {
+    0% {opacity: 1;}
+    50% {opacity: 0;}
+    100% {opacity: 1;}
+}
+
+.blink {
+    animation: blink 3s linear infinite;
 }

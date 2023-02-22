@@ -36,10 +36,10 @@ function initGame(){
 
     // Render HTML
     numOfPlays.innerHTML = num;
-    scoreElement.innerText = score;
+    scoreElement.innerText = `${score} / ${total}`;
     sentenceElement.innerText = sentence;
     completeElement.innerText = completed;
-    totalSentences.innerText = total;
+    // totalSentences.innerText = total;
     input.value = "";
     checkButton.setAttribute("disabled", true);
 }
@@ -73,7 +73,7 @@ function loseGame(msg){
 // Win Game
 function winGame(msg){
     score++;
-    if(total == 0){
+    if(score == total){
         return winner(`You completed every sentences!!`)
     }
     refreshGame(msg)
@@ -102,7 +102,6 @@ checkButton.addEventListener("click", () => {
     if(answerText !== sentenceText)
         return loseGame(`Oops! ${answerText} is not a correct sentence`)
     else{
-        total--;
         // Remove sentence from `sentencesRemaining` array
         sentencesRemaining.splice(randomIndex, 1);
         return winGame(`Congrats! ${answerText} is a correct`)

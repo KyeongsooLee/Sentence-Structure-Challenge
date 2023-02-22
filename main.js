@@ -15,25 +15,24 @@ let num = 3; // Each player has three replays.
 let completed = 0;
 let total = sentences.length;
 let sentencesRemaining = sentences.slice();
+let randomIndex = 0;
 
 // Initial Game
 function initGame(){
     if (sentencesRemaining.length === 0) {
+        console.log("test")
         // All sentences have been guessed, so restart the game
         sentencesRemaining = sentences.slice();
-        total = sentencesRemaining.length;
+        total = sentences.length;
         score = 0;
         num = 3;
       }
 
     // Random Word
-    let randomIndex = Math.floor(Math.random() * sentencesRemaining.length);
+    randomIndex = Math.floor(Math.random() * sentencesRemaining.length);
     let randomObj = sentencesRemaining[randomIndex];
     sentence = randomObj.sentence;
     console.log(sentence)
-
-    // Remove sentence from `sentencesRemaining` array
-    sentencesRemaining.splice(randomIndex, 1);
 
     // Render HTML
     numOfPlays.innerHTML = num;
@@ -59,8 +58,6 @@ function refreshGame(msg){
 // GameOver
 function gameOver(){
     let msg = `Game Over! You get ${score} points, play again!`;
-    num = 3;
-    score = 0;
     refreshGame(msg);
 }
 
@@ -106,6 +103,8 @@ checkButton.addEventListener("click", () => {
         return loseGame(`Oops! ${answerText} is not a correct sentence`)
     else{
         total--;
+        // Remove sentence from `sentencesRemaining` array
+        sentencesRemaining.splice(randomIndex, 1);
         return winGame(`Congrats! ${answerText} is a correct`)
     }
 })

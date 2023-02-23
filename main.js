@@ -16,16 +16,18 @@ let completed = 0;
 let total = sentences.length;
 let sentencesRemaining = sentences.slice();
 let randomIndex = 0;
+let defeat = false;
 
 // Initial Game
 function initGame(){
-    if (sentencesRemaining.length === 0) {
+    if (sentencesRemaining.length === 0 || defeat === true) {
         console.log("test")
         // All sentences have been guessed, so restart the game
         sentencesRemaining = sentences.slice();
         total = sentences.length;
         score = 0;
         num = 3;
+        defeat = false;
       }
 
     // Random Word
@@ -58,14 +60,17 @@ function refreshGame(msg){
 // GameOver
 function gameOver(){
     let msg = `Game Over! You get ${score} points, play again!`;
+    defeat = true;
     refreshGame(msg);
 }
 
 // Lose game
 function loseGame(msg){
     num--;
-    if(num < 0)
+    if(num === 0){
         return gameOver();
+    }
+        
 
     refreshGame(msg)
 }
